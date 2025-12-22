@@ -1,0 +1,43 @@
+import tornado.escape
+
+from .base import BaseHandler
+from backend.db.db_interface import DatabaseInterface
+
+class MessagesHandler(BaseHandler):
+    async def get(self):
+        user = self.get_current_user()
+        if not user:
+            return self.write_json({"error": "Non autenticato"}, 401)
+
+        messages = await DatabaseInterface.get_messages_for_all()
+
+        out = [{
+            "id": str(t["_id"]),
+            "text": t["text"],
+            "time": t["time"]
+        } for t in messages]
+
+        return self.write_json({"items": out})
+
+    async def post(self):
+        user = self.get_current_user()
+        if not user:
+            return self.write_json({"error": "Non autenticato"}, 401)
+
+        body = tornado.escape.json_decode(self.request.body)
+        text = body.get("text", "").strip()
+
+        if not text:
+            return self.write_json({"error": "Testo obbligatorio"}, 400)
+
+        result = await DatabaseInterface.create_message(user["id"], text)
+        return self.write_json({"id": str(result.inserted_id)}, 201)
+
+class MessageDeleteHandler(BaseHandler):
+    async def delete(self, message_id):
+        user = self.get_current_user()
+        if not user:
+            return self.write_json({"error": "Non autenticato"}, 401)
+
+        await DatabaseInterface.delete_message_by_user(message_id, user["id"])
+        return self.write_json({"message": "Eliminato"})
