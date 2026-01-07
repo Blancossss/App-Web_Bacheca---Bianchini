@@ -1,5 +1,6 @@
 import tornado.escape
 
+from backend.db.db import db_interface
 from .base import BaseHandler
 from backend.db.db_interface import DatabaseInterface
 
@@ -9,7 +10,7 @@ class MessagesHandler(BaseHandler):
         if not user:
             return self.write_json({"error": "Non autenticato"}, 401)
 
-        messages = await DatabaseInterface.get_messages_for_all()
+        messages = await db_interface.get_messages_for_all()
 
         out = [{
             "id": str(t["_id"]),
@@ -30,7 +31,7 @@ class MessagesHandler(BaseHandler):
         if not text:
             return self.write_json({"error": "Testo obbligatorio"}, 400)
 
-        result = await DatabaseInterface.create_message(user["id"], text)
+        result = await db_interface.create_message(user["id"], text)
         return self.write_json({"id": str(result.inserted_id)}, 201)
 
 class MessageDeleteHandler(BaseHandler):
@@ -39,5 +40,5 @@ class MessageDeleteHandler(BaseHandler):
         if not user:
             return self.write_json({"error": "Non autenticato"}, 401)
 
-        await DatabaseInterface.delete_message_by_user(message_id, user["id"])
+        await db_interface.delete_message_by_user(message_id, user["id"])
         return self.write_json({"message": "Eliminato"})

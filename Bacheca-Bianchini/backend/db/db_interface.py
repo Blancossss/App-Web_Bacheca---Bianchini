@@ -1,5 +1,5 @@
 from bson import ObjectId
-import datetime
+from datetime import datetime
 
 class DatabaseInterface:
     def __init__(self, db):
@@ -7,10 +7,10 @@ class DatabaseInterface:
         self._messages = db["messages"]
 
     # ---------- USERS ----------
-    async def get_user_by_email(self, email: str):
+    async def get_user_by_email(self, email = None):
         return await self._users.find_one({"email": email})
 
-    async def create_user(self, email: str, hashed_password: bytes):
+    async def create_user(self, email, hashed_password):
         return await self._users.insert_one({
             "email": email,
             "password": hashed_password
@@ -29,7 +29,7 @@ class DatabaseInterface:
         return await self._messages.insert_one({
             "user_id": ObjectId(user_id),
             "text": text,
-            "time": datetime.datetime().strftime("%Y-%m-%d %H:%M:%S")
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
 
     async def delete_message_by_user(self, message_id: str, user_id: str):

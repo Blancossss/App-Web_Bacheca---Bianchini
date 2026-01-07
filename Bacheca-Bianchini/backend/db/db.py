@@ -2,7 +2,7 @@ from pymongo import AsyncMongoClient
 from .db_interface import DatabaseInterface
 
 MONGO_URL = "mongodb://localhost:27017"
-DB_NAME = "todo_app"
+DB_NAME = "todo_app_Bianchini"
 
 COOKIE_SECRET = "super_secret_key_change_me"
 PORT = 8888

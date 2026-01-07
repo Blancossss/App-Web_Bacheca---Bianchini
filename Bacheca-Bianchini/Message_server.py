@@ -12,8 +12,8 @@ def make_app():
             (r"/api/login", LoginHandler),
             (r"/api/logout", LogoutHandler),
 
-            (r"/api/tasks", MessagesHandler),
-            (r"/api/tasks/([a-f0-9]{24})/delete", MessageDeleteHandler),
+            (r"/api/messages", MessagesHandler),
+            (r"/api/messages/([a-f0-9]{24})/delete", MessageDeleteHandler),
 
             (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": "static"}),
             (r"/", tornado.web.RedirectHandler, {"url": "/static/login.html"}),
