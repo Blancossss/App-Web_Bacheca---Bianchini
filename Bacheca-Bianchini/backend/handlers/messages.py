@@ -31,7 +31,7 @@ class MessagesHandler(BaseHandler):
         if not text:
             return self.write_json({"error": "Testo obbligatorio"}, 400)
 
-        result = await db_interface.create_message(user["id"], text)
+        result = await db_interface.create_message(user["id"], text, user["email"])
         return self.write_json({"id": str(result.inserted_id)}, 201)
 
 class MessageDeleteHandler(BaseHandler):

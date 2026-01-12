@@ -41,7 +41,7 @@ async function logout() {
 }
 
 
-async function loadMessaegs() {
+async function loadMessages() {
     const res = await fetch("/api/messages");
 
     if (res.status !== 200) {
@@ -50,28 +50,30 @@ async function loadMessaegs() {
     }
 
     const data = await res.json();
+    const currentUser = data.user.email;
+
     const list = document.getElementById("messageList");
     list.innerHTML = "";
 
     data.items.forEach(t => {
         const li = document.createElement("li");
-        li.className = t.done ? "done" : "";
 
         // Testo
         const textSpan = document.createElement("span");
-        textSpan.textContent = t.text;
+        textSpan.textContent = '${t.email}: ${t.text} | ${t.time}';
 
         // Area icone
         const actions = document.createElement("div");
 
+        if (t.email === currentUser) {
         // 🗑 icona
         const del = document.createElement("button");
-        del.className = "icon-btn";
-        del.innerHTML = '<i class="fa-solid fa-trash" title="Elimina"></i>';
-        del.onclick = () => deleteMessage(t.id);
+            del.className = "icon-btn";
+            del.innerHTML = '<i class="fa-solid fa-trash" title="Elimina"></i>';
+            del.onclick = () => deleteMessage(t.id);
 
-        actions.appendChild(del);
-
+            actions.appendChild(del);
+        }
         li.appendChild(textSpan);
         li.appendChild(actions);
         list.appendChild(li);
@@ -88,7 +90,7 @@ async function addMessage() {
         body: JSON.stringify({text})
     });
 
-    loadMessaegs();
+    loadMessages();
 }
 
 
@@ -99,15 +101,15 @@ async function updateMessage(id, done) {
         body: JSON.stringify({done})
     });
 
-    loadMessaegs();
+    loadMessages();
 }
 
 
 async function deleteMessage(id) {
     await fetch(`/api/messages/${id}/delete`, {method: "DELETE"});
-    loadMessaegs();
+    loadMessages();
 }
 
 
 if (location.pathname.endsWith("messages.html"))
-    loadMessaegs();
+    loadMessages();

@@ -25,11 +25,12 @@ class DatabaseInterface:
         cursor = self._messages.find()
         return [t async for t in cursor]
 
-    async def create_message(self, user_id: str, text: str):
+    async def create_message(self, user_id: str, text: str, email: str):
         return await self._messages.insert_one({
             "user_id": ObjectId(user_id),
+            "email": email,
             "text": text,
-            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "hour": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
 
     async def delete_message_by_user(self, message_id: str, user_id: str):
