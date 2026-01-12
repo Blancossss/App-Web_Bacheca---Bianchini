@@ -22,7 +22,7 @@ body {
    CONTAINER
 =============================*/
 .container {
-    width: 360px;
+    width: 80%;
     background: white;
     padding: 25px 22px;
     border-radius: 12px;
@@ -96,7 +96,7 @@ li {
 
     background: #fafafa;
     border: 1px solid #ddd;
-    padding: 12px;
+    padding-left: 10px;
     border-radius: 8px;
     margin-bottom: 10px;
 
@@ -125,8 +125,9 @@ li div {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px;
+    padding: 10px;
     font-size: 18px;
+    margin-bottom: 0;
 }
 
 .icon-btn i {
