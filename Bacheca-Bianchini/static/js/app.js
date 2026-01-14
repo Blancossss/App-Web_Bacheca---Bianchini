@@ -50,7 +50,7 @@ async function loadMessages() {
     }
 
     const data = await res.json();
-    const currentUser = data.user.email;
+    const currentUser = data.current_user.email;
 
     const list = document.getElementById("messageList");
     list.innerHTML = "";
@@ -60,7 +60,7 @@ async function loadMessages() {
 
         // Testo
         const textSpan = document.createElement("span");
-        textSpan.textContent = '${t.email}: ${t.text} | ${t.time}';
+        textSpan.textContent = t.email+": "+t.text+" | "+t.time;
 
         // Area icone
         const actions = document.createElement("div");

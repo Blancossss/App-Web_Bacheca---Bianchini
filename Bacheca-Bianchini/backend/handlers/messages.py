@@ -17,9 +17,11 @@ class MessagesHandler(BaseHandler):
             "email": t["email"],
             "text": t["text"],
             "time": t["time"]
+            #"isOwner": t["email"] == user["email"]
+            # ^^^ #se currentUser non funziona prova questo
         } for t in messages]
 
-        return self.write_json({"items": out})
+        return self.write_json({"items": out, "current_user": user})
 
     async def post(self):
         user = self.get_current_user()
