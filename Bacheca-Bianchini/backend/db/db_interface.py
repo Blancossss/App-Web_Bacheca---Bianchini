@@ -30,7 +30,7 @@ class DatabaseInterface:
             "user_id": ObjectId(user_id),
             "email": email,
             "text": text,
-            "hour": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
 
     async def delete_message_by_user(self, message_id: str, user_id: str):

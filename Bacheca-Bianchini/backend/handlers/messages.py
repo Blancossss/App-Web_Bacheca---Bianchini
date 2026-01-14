@@ -14,6 +14,7 @@ class MessagesHandler(BaseHandler):
 
         out = [{
             "id": str(t["_id"]),
+            "email": t["email"],
             "text": t["text"],
             "time": t["time"]
         } for t in messages]
